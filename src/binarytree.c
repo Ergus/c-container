@@ -20,7 +20,7 @@
 #include <assert.h>
 #include "c-container.h"
 
-static struct BinaryTreeNode *_allocInitBinaryTree(
+static BinaryTreeNode *_allocInitBinaryTree(
 	struct BinaryTreeNode *node, int key, void *value
 ) {
 	// Allocate and initialize a node. Sets value and set the references NULL.
@@ -39,7 +39,7 @@ static struct BinaryTreeNode *_allocInitBinaryTree(
 	return node;
 }
 
-static void _freeBinaryTreeNode(struct BinaryTreeNode *node)
+static void _freeBinaryTreeNode(BinaryTreeNode *node)
 {
 	if (node->left != NULL) {
 		_freeBinaryTreeNode(node->left);
@@ -64,7 +64,7 @@ static void _freeBinaryTreeNode(struct BinaryTreeNode *node)
 	free(node);
 }
 
-void allocInitBinaryTree(struct BinaryTree *out)
+void allocInitBinaryTree(BinaryTree *out)
 {
 	out->entries = 0;
 	out->tree = NULL;
@@ -72,14 +72,14 @@ void allocInitBinaryTree(struct BinaryTree *out)
 	out->end = NULL;
 }
 
-void freeBinaryTree(struct BinaryTree *out)
+void freeBinaryTree(BinaryTree *out)
 {
 	_freeBinaryTreeNode(out->tree);
 }
 
-struct BinaryTreeNode **_getSlotBinaryTree(struct BinaryTree *out, int key)
+BinaryTreeNode **_getSlotBinaryTree(BinaryTree *out, int key)
 {
-	struct BinaryTreeNode **it = &out->tree;
+	BinaryTreeNode **it = &out->tree;
 
 	while (*it != NULL) {
 		if (key > (*it)->key) {
@@ -94,10 +94,9 @@ struct BinaryTreeNode **_getSlotBinaryTree(struct BinaryTree *out, int key)
 	return it;
 }
 
-struct BinaryTreeNode *insertBinaryTree(
-	struct BinaryTree *out, int key, void *value
-) {
-	struct BinaryTreeNode **it = _getSlotBinaryTree(out, key);
+BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value)
+{
+	BinaryTreeNode **it = _getSlotBinaryTree(out, key);
 
 	if (*it == NULL) {
 		*it = _allocInitBinaryTree(NULL, key, value);
@@ -110,8 +109,8 @@ struct BinaryTreeNode *insertBinaryTree(
 	return *it;
 }
 
-struct BinaryTreeNode *getKeyBinaryTree(struct BinaryTree *out, int key)
+BinaryTreeNode *getKeyBinaryTree(BinaryTree *out, int key)
 {
-	struct BinaryTreeNode **it = _getSlotBinaryTree(out, key);
+	BinaryTreeNode **it = _getSlotBinaryTree(out, key);
 	return *it;
 }

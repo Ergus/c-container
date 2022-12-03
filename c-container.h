@@ -26,7 +26,7 @@
 
 // Linked List ===================================================================
 
-struct LinkedListNode {
+typedef struct LinkedListNode {
 	// Node for hash table (hash array + linked list to handle collision) and
 	// access list (double linked list to remove and add node)
 	int key;
@@ -34,31 +34,27 @@ struct LinkedListNode {
 
 	// Single linked list entries (handle hash collisions)
 	struct LinkedListNode *next;
-};
+} LinkedListNode;
 
-struct LinkedList {
+typedef struct LinkedList {
 	size_t entries;
 
 	// This is the array for the hash table.
-	struct LinkedListNode *list;
-	struct LinkedListNode *last;
-};
+	LinkedListNode *list;
+	LinkedListNode *last;
+} LinkedList;
 
-void allocInitLinkedList(struct LinkedList *out);
-void freeLinkedList(struct LinkedList *out);
+void allocInitLinkedList(LinkedList *out);
+void freeLinkedList(LinkedList *out);
 
-struct LinkedListNode *insertLinkedList(
-	struct LinkedList *out, int key, void *value
-);
+LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value);
 
-struct LinkedListNode *getKeyLinkedList(const struct LinkedList *out, int key);
-struct LinkedListNode *getIndexLinkedList(
-	const struct LinkedList *out, size_t index
-);
+LinkedListNode *getKeyLinkedList(const LinkedList *out, int key);
+LinkedListNode *getIndexLinkedList(const LinkedList *out, size_t index);
 
 // Binary Tree =================================================================
 
-struct BinaryTreeNode {
+typedef struct BinaryTreeNode {
 	// Node for hash table (hash array + linked list to handle collision) and
 	// access list (double linked list to remove and add node)
 	int key;
@@ -68,26 +64,43 @@ struct BinaryTreeNode {
 	struct BinaryTreeNode *parent;
 	struct BinaryTreeNode *left;
 	struct BinaryTreeNode *right;
-};
+} BinaryTreeNode;
 
-struct BinaryTree {
+typedef struct BinaryTree {
 	size_t entries;
 
 	// This is the array for the hash table.
-	struct BinaryTreeNode *tree;
+	BinaryTreeNode *tree;
 
-	struct BinaryTreeNode *start;
-	struct BinaryTreeNode *end;
-};
+	BinaryTreeNode *start;
+	BinaryTreeNode *end;
+} BinaryTree;
 
-void allocInitBinaryTree(struct BinaryTree *out);
-void freeBinaryTree(struct BinaryTree *out);
+void allocInitBinaryTree(BinaryTree *out);
+void freeBinaryTree(BinaryTree *out);
 
-struct BinaryTreeNode *insertBinaryTree(
-	struct BinaryTree *out, int key, void *value
-);
+BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value);
 
-struct BinaryTreeNode *getKeyBinaryTree(struct BinaryTree *out, int key);
+BinaryTreeNode *getKeyBinaryTree(BinaryTree *out, int key);
+
+// Hash Table =================================================================
+
+typedef LinkedListNode HashTableNode;
+
+typedef struct HashTable {
+	size_t entries;
+	size_t N;
+
+	// This is the array for the hash table.
+	LinkedList *table;
+} HashTable;
+
+void allocInitHashTable(HashTable *out, size_t N);
+void freeHashTable(HashTable *out);
+
+HashTableNode *insertHashTable(HashTable *out, int key, void *value);
+
+HashTableNode *getKeyHashTable(HashTable *out, int key);
 
 
 #endif // C_CONTAINER_H

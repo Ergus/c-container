@@ -23,8 +23,8 @@
 
 // List Node ===================================================================
 
-static struct LinkedListNode *_allocInitLinkedListNode(
-	struct LinkedListNode *node, int key, void *value
+static LinkedListNode *_allocInitLinkedListNode(
+	LinkedListNode *node, int key, void *value
 ) {
 	// Allocate and initialize a node. Sets value and set the references NULL.
 	// this is like a constructor with new (because it calls malloc.)
@@ -40,14 +40,14 @@ static struct LinkedListNode *_allocInitLinkedListNode(
 	return node;
 }
 
-static void _freeLinkedListNode(struct LinkedListNode *node)
+static void _freeLinkedListNode(LinkedListNode *node)
 {
 	// the value needs to be released as the node has its ownership
 	free(node->value);
 	free(node);
 }
 
-void allocInitLinkedList(struct LinkedList *out)
+void allocInitLinkedList(LinkedList *out)
 {
 	out->entries = 0;
 
@@ -55,20 +55,21 @@ void allocInitLinkedList(struct LinkedList *out)
 	out->last = NULL;
 }
 
-void freeLinkedList(struct LinkedList *out)
+void freeLinkedList(LinkedList *out)
 {
-	struct LinkedListNode *it = out->list;
+	LinkedListNode *it = out->list;
 	while (it != NULL) {
-		struct LinkedListNode *tmp = it;
+		LinkedListNode *tmp = it;
 		it = it->next;
 		_freeLinkedListNode(tmp);
 	}
+
+	out->entries = 0;
 }
 
-struct LinkedListNode *insertLinkedList(
-	struct LinkedList *out, int key, void *value
-) {
-	struct LinkedListNode *node = _allocInitLinkedListNode(NULL, key, value);
+LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value)
+{
+	LinkedListNode *node = _allocInitLinkedListNode(NULL, key, value);
 	assert(node != NULL);
 
 	if (out->last != NULL) {
@@ -86,22 +87,21 @@ struct LinkedListNode *insertLinkedList(
 	return node;
 }
 
-struct LinkedListNode *getKeyLinkedList(const struct LinkedList *out, int key)
+LinkedListNode *getKeyLinkedList(const LinkedList *out, int key)
 {
-	struct LinkedListNode *node = out->list;
+	LinkedListNode *node = out->list;
 	for (; node != NULL && node->key != key; node = node->next);
 	return node;
 }
 
-struct LinkedListNode *getIndexLinkedList(
-	const struct LinkedList *out, size_t index
-) {
+LinkedListNode *getIndexLinkedList(const LinkedList *out, size_t index)
+{
 	if (index >= out->entries) {
 		return NULL;
 	}
 
 	size_t counter = 0;
-	struct LinkedListNode *node = out->list;
+	LinkedListNode *node = out->list;
 	for (; counter < index; node = node->next) {
 		++counter;
 	};
