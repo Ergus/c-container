@@ -77,9 +77,9 @@ void freeBinaryTree(BinaryTree *out)
 	_freeBinaryTreeNode(out->tree);
 }
 
-BinaryTreeNode **_getSlotBinaryTree(BinaryTree *out, int key)
+BinaryTreeNode **_getSlotBinaryTree(BinaryTreeNode **root, int key)
 {
-	BinaryTreeNode **it = &out->tree;
+	BinaryTreeNode **it = root;
 
 	while (*it != NULL) {
 		if (key > (*it)->key) {
@@ -96,7 +96,7 @@ BinaryTreeNode **_getSlotBinaryTree(BinaryTree *out, int key)
 
 BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value)
 {
-	BinaryTreeNode **it = _getSlotBinaryTree(out, key);
+	BinaryTreeNode **it = _getSlotBinaryTree(&out->tree, key);
 
 	if (*it == NULL) {
 		*it = _allocInitBinaryTree(NULL, key, value);
@@ -111,6 +111,42 @@ BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value)
 
 BinaryTreeNode *getKeyBinaryTree(BinaryTree *out, int key)
 {
-	BinaryTreeNode **it = _getSlotBinaryTree(out, key);
+	BinaryTreeNode **it = _getSlotBinaryTree(&out->tree, key);
 	return *it;
+}
+
+
+static void _removeKeyBinaryTree(BinaryTreeNode **root, int key)
+{
+	assert(root != NULL);
+	assert(*root != NULL);
+
+	BinaryTreeNode **it = _getSlotBinaryTree(root, key);
+
+	free((*it)->value);
+
+	if ((*it)->left == NULL && (*it)->right == NULL) {
+		free((*it));
+		*it = NULL;
+	} else if ((*it)->left == NULL || (*it)->right == NULL) {
+		BinaryTreeNode *tmp = (*it)->left != NULL ? (*it)->left : (*it)->right;
+		free((*it));
+		*it = tmp;
+	} else {
+		BinaryTreeNode *tmp = (*it)->right;
+		while (tmp->left != NULL) {
+			tmp = tmp->left;
+		}
+
+		(*it)->key = tmp->key;
+		(*it)->value = tmp->value;
+		tmp->value = NULL;   // free on NULL is save.
+
+		_removeKeyBinaryTree(&(*it)->right, tmp->key);
+	}
+}
+
+void popKeyBinaryTree(BinaryTree *out, int key)
+{
+	_removeKeyBinaryTree(&(out->tree), key);
 }

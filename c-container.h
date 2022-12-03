@@ -83,6 +83,8 @@ BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value);
 
 BinaryTreeNode *getKeyBinaryTree(BinaryTree *out, int key);
 
+void popKeyBinaryTree(BinaryTree *out, int key);
+
 // Hash Table =================================================================
 
 typedef LinkedListNode HashTableNode;

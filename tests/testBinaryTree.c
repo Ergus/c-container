@@ -25,19 +25,17 @@
 
 int main()
 {
-	size_t values[NENTRIES];
+	size_t values[] = {4, 5, 3, 128, 56, 57, 58, 55, 0, 1};
 
 	struct BinaryTree list;
 	allocInitBinaryTree(&list);
 
 	// Insert 10 values and test
 	for (size_t i = 0; i < 10; ++i) {
-		values[i] = rand() % (NENTRIES * 10);
-
 		int *val = malloc(sizeof(int));
 		*val = values[i];
 
-		struct BinaryTreeNode *node = insertBinaryTree(&list, values[i], val);
+		BinaryTreeNode *node = insertBinaryTree(&list, values[i], val);
 
 		assert(node != 0);
 		assert(node->key == values[i]);
@@ -46,14 +44,33 @@ int main()
 
 	// Check the 10 values by key
 	for (size_t i = 0; i < 10; ++i) {
-		struct BinaryTreeNode *node = getKeyBinaryTree(&list, values[i]);
+		BinaryTreeNode *node = getKeyBinaryTree(&list, values[i]);
 
 		assert(node != NULL);
 		assert(node->key == values[i]);
 		assert(*(int *)(node->value) == values[i]);
 	}
 
+
 	assert(getKeyBinaryTree(&list, NENTRIES * 10 + 1) == NULL);
+
+	// Test the remove function.
+	// Remove keys form font to use the most complex combinations
+	for (size_t i = 0; i < 10; ++i) {
+		popKeyBinaryTree(&list, values[i]);
+
+		for (size_t j = 0; j < 10; ++j) {
+			BinaryTreeNode *node = getKeyBinaryTree(&list, values[j]);
+
+			if (j <= i) {
+				assert(node == NULL);
+			} else {
+				assert(node != NULL);
+				assert(node->key == values[j]);
+				assert(*(int *)(node->value) == values[j]);
+			}
+		}
+	}
 
 	freeBinaryTree(&list);
 
