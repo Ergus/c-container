@@ -13,7 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-objects := $(wildcard src/*.c)
+objects_src := $(wildcard src/*.c)
+objects_obj := $(patsubst %.c,%.o,$(notdir $(objects_src)))
 
 tests_src := $(wildcard tests/*.c)
 tests_exe := $(patsubst %.c,%.x,$(notdir $(tests_src)))
@@ -22,14 +23,14 @@ CFLAGS += -I. -g
 
 all: libcontainer.so
 
-libcontainer.o: $(objects)
-	$(CC) $(CFLAGS) -c -Wall -Werror -I. -fpic -g $^ -o $@
+%.o: src/%.c
+	$(CC) $(CFLAGS) -c -Wall -Werror -fpic $^ -o $@
 
-%.so: %.o
-	$(CC) $(CFLAGS) -shared $< -o $@
+libcontainer.so: $(objects_obj)
+	$(CC) $(CFLAGS) -shared $^ -o $@
 
 %.x: tests/%.c libcontainer.so
-	$(CC) $(CFLAGS) $< -o $@ -L. -Wl,-rpath=. -lcontainer
+	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath=. -lcontainer
 
 .PHONY: check clean
 

@@ -24,8 +24,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-
-
 // Linked List ===================================================================
 
 struct LinkedListNode {
@@ -40,7 +38,6 @@ struct LinkedListNode {
 
 struct LinkedList {
 	size_t entries;
-	int copy;
 
 	// This is the array for the hash table.
 	struct LinkedListNode *list;
@@ -58,5 +55,39 @@ struct LinkedListNode *getKeyLinkedList(const struct LinkedList *out, int key);
 struct LinkedListNode *getIndexLinkedList(
 	const struct LinkedList *out, size_t index
 );
+
+// Binary Tree =================================================================
+
+struct BinaryTreeNode {
+	// Node for hash table (hash array + linked list to handle collision) and
+	// access list (double linked list to remove and add node)
+	int key;
+	void *value;
+
+	// Single linked list entries (handle hash collisions)
+	struct BinaryTreeNode *parent;
+	struct BinaryTreeNode *left;
+	struct BinaryTreeNode *right;
+};
+
+struct BinaryTree {
+	size_t entries;
+
+	// This is the array for the hash table.
+	struct BinaryTreeNode *tree;
+
+	struct BinaryTreeNode *start;
+	struct BinaryTreeNode *end;
+};
+
+void allocInitBinaryTree(struct BinaryTree *out);
+void freeBinaryTree(struct BinaryTree *out);
+
+struct BinaryTreeNode *insertBinaryTree(
+	struct BinaryTree *out, int key, void *value
+);
+
+struct BinaryTreeNode *getKeyBinaryTree(struct BinaryTree *out, int key);
+
 
 #endif // C_CONTAINER_H
