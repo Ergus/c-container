@@ -152,10 +152,9 @@ static int _removeKeyBinaryTree(BinaryTreeNode **root, int key)
 	return 1;
 }
 
-void popKeyBinaryTree(BinaryTree *out, int key)
+int popKeyBinaryTree(BinaryTree *out, int key)
 {
 	int removed = _removeKeyBinaryTree(&(out->tree), key);
-	if (removed == 1) {
-		out->entries--;
-	}
+	out->entries -= removed;
+	return removed;
 }

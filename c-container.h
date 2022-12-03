@@ -52,8 +52,8 @@ LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value);
 LinkedListNode *getKeyLinkedList(LinkedList *out, int key);
 LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index);
 
-void popKeyLinkedList(LinkedList *out, int key);
-void popIndexLinkedList(LinkedList *out, size_t index);
+int popKeyLinkedList(LinkedList *out, int key);
+int popIndexLinkedList(LinkedList *out, size_t index);
 
 // Binary Tree =================================================================
 
@@ -86,7 +86,7 @@ BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value);
 
 BinaryTreeNode *getKeyBinaryTree(BinaryTree *out, int key);
 
-void popKeyBinaryTree(BinaryTree *out, int key);
+int popKeyBinaryTree(BinaryTree *out, int key);
 
 // Hash Table =================================================================
 
@@ -107,5 +107,6 @@ HashTableNode *insertHashTable(HashTable *out, int key, void *value);
 
 HashTableNode *getKeyHashTable(HashTable *out, int key);
 
+int popKeyHashTable(HashTable *out, int key);
 
 #endif // C_CONTAINER_H

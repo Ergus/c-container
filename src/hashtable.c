@@ -72,3 +72,13 @@ HashTableNode *getKeyHashTable(HashTable *out, int key)
 
 	return getKeyLinkedList(&out->table[hash], key);
 }
+
+int popKeyHashTable(HashTable *out, int key)
+{
+	const size_t hash = _hashFunction(out, key);
+	assert(hash < out->N);
+
+	int removed = popKeyLinkedList(&out->table[hash], key);
+	out->entries -= removed;
+	return removed;
+}

@@ -121,12 +121,12 @@ LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index)
 	return ref != NULL ? *ref : NULL;
 }
 
-void popKeyLinkedList(LinkedList *out, int key)
+int popKeyLinkedList(LinkedList *out, int key)
 {
 	LinkedListNode **ref = _getRefKeyLinkedList(out, key);
 
 	if (*ref == NULL) {
-		return;
+		return 0;
 	}
 
 	LinkedListNode *next = (*ref)->next;
@@ -134,14 +134,15 @@ void popKeyLinkedList(LinkedList *out, int key)
 	out->entries--;
 	free(*ref);
 	*ref = next;
+	return 1;
 }
 
-void popIndexLinkedList(LinkedList *out, size_t index)
+int popIndexLinkedList(LinkedList *out, size_t index)
 {
 	LinkedListNode **ref = _getRefIndexLinkedList(out, index);
 
 	if (*ref == NULL) {
-		return;
+		return 0;
 	}
 
 	LinkedListNode *next = (*ref)->next;
@@ -149,4 +150,5 @@ void popIndexLinkedList(LinkedList *out, size_t index)
 	out->entries--;
 	free(*ref);
 	*ref = next;
+	return 1;
 }
