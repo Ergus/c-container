@@ -49,8 +49,11 @@ void freeLinkedList(LinkedList *out);
 
 LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value);
 
-LinkedListNode *getKeyLinkedList(const LinkedList *out, int key);
-LinkedListNode *getIndexLinkedList(const LinkedList *out, size_t index);
+LinkedListNode *getKeyLinkedList(LinkedList *out, int key);
+LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index);
+
+void popKeyLinkedList(LinkedList *out, int key);
+void popIndexLinkedList(LinkedList *out, size_t index);
 
 // Binary Tree =================================================================
 

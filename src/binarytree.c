@@ -116,12 +116,16 @@ BinaryTreeNode *getKeyBinaryTree(BinaryTree *out, int key)
 }
 
 
-static void _removeKeyBinaryTree(BinaryTreeNode **root, int key)
+static int _removeKeyBinaryTree(BinaryTreeNode **root, int key)
 {
 	assert(root != NULL);
 	assert(*root != NULL);
 
 	BinaryTreeNode **it = _getSlotBinaryTree(root, key);
+
+	if (*it == NULL) {
+		return 0;
+	}
 
 	free((*it)->value);
 
@@ -142,11 +146,16 @@ static void _removeKeyBinaryTree(BinaryTreeNode **root, int key)
 		(*it)->value = tmp->value;
 		tmp->value = NULL;   // free on NULL is save.
 
-		_removeKeyBinaryTree(&(*it)->right, tmp->key);
+		int removed = _removeKeyBinaryTree(&(*it)->right, tmp->key);
+		assert(removed == 1);
 	}
+	return 1;
 }
 
 void popKeyBinaryTree(BinaryTree *out, int key)
 {
-	_removeKeyBinaryTree(&(out->tree), key);
+	int removed = _removeKeyBinaryTree(&(out->tree), key);
+	if (removed == 1) {
+		out->entries--;
+	}
 }

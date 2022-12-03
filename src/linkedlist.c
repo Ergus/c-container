@@ -87,24 +87,66 @@ LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value)
 	return node;
 }
 
-LinkedListNode *getKeyLinkedList(const LinkedList *out, int key)
+static LinkedListNode **_getRefKeyLinkedList(LinkedList *out, int key)
 {
-	LinkedListNode *node = out->list;
-	for (; node != NULL && node->key != key; node = node->next);
-	return node;
+	LinkedListNode **ref = &out->list;
+	for (; *ref != NULL && (*ref)->key != key; ref = &(*ref)->next);
+	return ref;
 }
 
-LinkedListNode *getIndexLinkedList(const LinkedList *out, size_t index)
+LinkedListNode *getKeyLinkedList(LinkedList *out, int key)
+{
+	LinkedListNode **ref = _getRefKeyLinkedList(out, key);;
+	return ref != NULL ? *ref : NULL;
+}
+
+static LinkedListNode **_getRefIndexLinkedList(LinkedList *out, size_t index)
 {
 	if (index >= out->entries) {
 		return NULL;
 	}
 
 	size_t counter = 0;
-	LinkedListNode *node = out->list;
-	for (; counter < index; node = node->next) {
+	LinkedListNode **ref = &out->list;
+	for (; counter < index; ref = &(*ref)->next) {
 		++counter;
 	};
-	return node;
+
+	return ref;
 }
 
+LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index)
+{
+	LinkedListNode **ref = _getRefIndexLinkedList(out, index);
+	return ref != NULL ? *ref : NULL;
+}
+
+void popKeyLinkedList(LinkedList *out, int key)
+{
+	LinkedListNode **ref = _getRefKeyLinkedList(out, key);
+
+	if (*ref == NULL) {
+		return;
+	}
+
+	LinkedListNode *next = (*ref)->next;
+
+	out->entries--;
+	free(*ref);
+	*ref = next;
+}
+
+void popIndexLinkedList(LinkedList *out, size_t index)
+{
+	LinkedListNode **ref = _getRefIndexLinkedList(out, index);
+
+	if (*ref == NULL) {
+		return;
+	}
+
+	LinkedListNode *next = (*ref)->next;
+
+	out->entries--;
+	free(*ref);
+	*ref = next;
+}
