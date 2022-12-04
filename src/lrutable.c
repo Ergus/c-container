@@ -43,6 +43,8 @@ void allocInitlruTable(lruTable *out, size_t N)
 {
 	allocInitHashTable((HashTable *) out, N);
 
+	assert(out->N == N);
+
 	out->maxEntries = N;
 	out->accesList = NULL;
 	out->lastAccess = NULL;
@@ -84,6 +86,7 @@ void _disconnectlruTableNodeAccess(lruTable *in, lruTableNode *node)
 
 void _registerNodeAccess(lruTable *in, lruTableNode *node)
 {
+	assert(node != NULL);
 	// This may be called every time a new node is accessed or when a value is
 	// retrieved with the get function.
 	if (in->lastAccess == NULL) {  // Registering the very first access
@@ -102,8 +105,9 @@ void _registerNodeAccess(lruTable *in, lruTableNode *node)
 	in->lastAccess = node;
 }
 
-lruTableNode *insertlruTable(lruTable *out, int key, void *value)
+lruTableNode *insertKeylruTable(lruTable *out, int key, void *value)
 {
+	assert(out->N > 0);
 	assert(out->entries <= out->maxEntries);
 	HashTableNode *nodeUncasted = getKeyHashTable((HashTable *)out, key);
 
@@ -117,24 +121,34 @@ lruTableNode *insertlruTable(lruTable *out, int key, void *value)
 	} else {
 
 		if (out->entries == out->maxEntries) {
+			node = out->accesList;
+
 			// When full, remove the least recent access.
-			_disconnectlruTableNodeAccess(out, out->accesList);
+			_disconnectlruTableNodeAccess(out, node);
 
 			// This performs an extra search
-			int removed = popKeyHashTable(
-				(HashTable *)out, out->accesList->key);
-			assert(removed == 1);
+			lruTableNode *tmp = (lruTableNode *)_extractNodeHashTable(
+				(HashTable *)out, (HashTableNode *)node);
+
+			assert(tmp == node);
+			assert(node != NULL);
 			assert(out->entries == out->maxEntries - 1);
 		}
 
-		const size_t hash = _hashFunction((HashTable *)out, key);
-		LinkedList *hashEntry = &out->table[hash];
-
-		node = _allocInitlruTableNode(NULL, key, value);
-		insertNodeDoubleLinkedList(hashEntry, (DoubleLinkedListNode *)node);
+		node = _allocInitlruTableNode(node, key, value);
+		_insertNodeHashTable((HashTable *)out, (HashTableNode *)node);
 	}
-
 	_registerNodeAccess(out, node);
 
+	return node;
+}
+
+lruTableNode *getKeylruTable(lruTable *out, int key)
+{
+	lruTableNode *node = (lruTableNode *)getKeyHashTable((HashTable *)out, key);
+	if (node != NULL) {
+		_disconnectlruTableNodeAccess(out, node);
+		_registerNodeAccess(out, node);
+	}
 	return node;
 }

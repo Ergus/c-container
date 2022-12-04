@@ -161,6 +161,8 @@ typedef struct lruTable {
 void allocInitlruTable(lruTable *out, size_t N);
 
 void freelruTable(lruTable *out);
-lruTableNode *insertlruTable(lruTable *out, int key, void *value);
+lruTableNode *insertKeylruTable(lruTable *out, int key, void *value);
+
+lruTableNode *getKeylruTable(lruTable *out, int key);
 
 #endif // C_CONTAINER_H

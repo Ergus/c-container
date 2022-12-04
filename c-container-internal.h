@@ -41,11 +41,18 @@ DoubleLinkedListNode *_allocInitDoubleLinkedListNode(
 	DoubleLinkedListNode *node, int key, void *value
 );
 
-int _popNodeDoubleLinkedList(LinkedList *out, DoubleLinkedListNode *node);
+void _freeDoubleLinkedListNode(DoubleLinkedListNode *node);
+
+DoubleLinkedListNode *_extractNodeDoubleLinkedList(
+	LinkedList *out, DoubleLinkedListNode *node
+);
 
 // Hash Table
 
 size_t _hashFunction(HashTable *in, size_t key);
-int _popNodeHashTable(HashTable *out, HashTableNode *node);
+
+HashTableNode *_extractNodeHashTable(HashTable *out, HashTableNode *node);
+
+HashTableNode *_insertNodeHashTable(HashTable *out, HashTableNode *node);
 
 #endif // C_CONTAINER_H

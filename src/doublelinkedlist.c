@@ -79,10 +79,13 @@ DoubleLinkedListNode *getIndexDoubleLinkedList(
 	return (DoubleLinkedListNode *) getIndexLinkedList(out, index);
 }
 
-int _popNodeDoubleLinkedList(DoubleLinkedList *out, DoubleLinkedListNode *node)
-{
+DoubleLinkedListNode *_extractNodeDoubleLinkedList(
+	DoubleLinkedList *out, DoubleLinkedListNode *node
+) {
+	assert(out->list != NULL);
+	assert(out->last != NULL);
 	if (node == NULL) {
-		return 0;
+		return NULL;
 	}
 
 	DoubleLinkedListNode *clist = (DoubleLinkedListNode *)out->list;
@@ -92,13 +95,22 @@ int _popNodeDoubleLinkedList(DoubleLinkedList *out, DoubleLinkedListNode *node)
 		// Is first node
 		assert(node->last == NULL);
 		out->list = node->next;
-		((DoubleLinkedListNode *)out->list)->last = NULL;
+		if (out->list != NULL) {
+			clist = (DoubleLinkedListNode *) out->list;
+			clist->last = NULL;
+		} else {
+			out->last = NULL;
+		}
 	} else if (clast == node) {
+		assert(clist != node);
 		assert(node->next == NULL);
-		clast = node->last;
+		assert(node->last != NULL);
 
-		assert((DoubleLinkedListNode *)clast->next == node);
-		out->last->next = NULL;
+		out->last = (LinkedListNode *) node->last;
+		clast = (DoubleLinkedListNode *)out->last;
+
+		assert(clast->next == (LinkedListNode *) node);
+		clast->next = NULL;
 	} else {
 		assert(node->last != NULL);
 		assert(node->next != NULL);
@@ -109,20 +121,38 @@ int _popNodeDoubleLinkedList(DoubleLinkedList *out, DoubleLinkedListNode *node)
 		((DoubleLinkedListNode *)node->next)->last = node->last;
 	}
 
-	_freeLinkedListNode((LinkedListNode *) node);
-
 	out->entries--;
-	return 1;
+	return node;
 }
 
 int popKeyDoubleLinkedList(DoubleLinkedList *out, int key)
 {
 	DoubleLinkedListNode *node = getKeyDoubleLinkedList(out, key);
-	return _popNodeDoubleLinkedList(out, node);
+
+	if (node == NULL) {
+		return 0;
+	}
+
+	DoubleLinkedListNode *tmp = _extractNodeDoubleLinkedList(out, node);
+	assert(tmp != NULL);
+
+	free(node);
+
+	return 1;
 }
 
 int popIndexDoubleLinkedList(DoubleLinkedList *out, size_t index)
 {
 	DoubleLinkedListNode *node = getIndexDoubleLinkedList(out, index);
-	return _popNodeDoubleLinkedList(out, node);
+
+	if (node == NULL) {
+		return 0;
+	}
+
+	DoubleLinkedListNode *tmp = _extractNodeDoubleLinkedList(out, node);
+	assert(tmp != NULL);
+
+	free(node);
+
+	return 1;
 }

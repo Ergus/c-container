@@ -52,6 +52,21 @@ void freeHashTable(HashTable *out)
 	out->entries = 0;
 }
 
+HashTableNode *_insertNodeHashTable(HashTable *out, HashTableNode *node)
+{
+	assert(out->N > 0);
+	const size_t hash = _hashFunction(out, node->key);
+	assert(hash < out->N);
+
+	LinkedList *hashEntry = &out->table[hash];
+	assert(getKeyDoubleLinkedList(hashEntry, node->key) == NULL);
+
+	out->entries++;
+	node = insertNodeDoubleLinkedList(hashEntry, node);
+
+	return node;
+}
+
 HashTableNode *insertKeyHashTable(HashTable *out, int key, void *value)
 {
 	const size_t hash = _hashFunction(out, key);
@@ -79,7 +94,7 @@ HashTableNode *getKeyHashTable(HashTable *out, int key)
 	return getKeyDoubleLinkedList(&out->table[hash], key);
 }
 
-int _popNodeHashTable(HashTable *out, HashTableNode *node)
+HashTableNode *_extractNodeHashTable(HashTable *out, HashTableNode *node)
 {
 	assert(node != NULL);
 	assert(out->entries > 0);
@@ -87,11 +102,12 @@ int _popNodeHashTable(HashTable *out, HashTableNode *node)
 	const size_t hash = _hashFunction(out, node->key);
 	assert(hash < out->N);
 
-	int removed = _popNodeDoubleLinkedList(&out->table[hash], node);
-	assert(removed == 1);
+	HashTableNode *tmp = _extractNodeDoubleLinkedList(&out->table[hash], node);
+	assert(tmp != NULL);
+	assert(tmp == node);
 
 	out->entries--;
-	return removed;
+	return tmp;
 }
 
 int popKeyHashTable(HashTable *out, int key)
