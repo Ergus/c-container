@@ -37,7 +37,7 @@ int main()
 		int *val = malloc(sizeof(int));
 		*val = values[i];
 
-		HashTableNode *node = insertHashTable(&list, values[i], val);
+		HashTableNode *node = insertKeyHashTable(&list, values[i], val);
 
 		assert(node != 0);
 		assert(node->key == values[i]);

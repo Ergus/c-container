@@ -20,10 +20,11 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "c-container.h"
+#include "c-container-internal.h"
 
 // List Node ===================================================================
 
-inline static size_t _hashFunction(HashTable *in, size_t key)
+size_t _hashFunction(HashTable *in, size_t key)
 {
 	return key % in->N;
 }
@@ -33,30 +34,35 @@ void allocInitHashTable(HashTable *out, size_t N)
 	out->entries = 0;
 	out->N = N;
 
-	out->table = malloc(N *sizeof(struct HashTable));
+	out->table = malloc(N *sizeof(DoubleLinkedList));
+
+	for (size_t i = 0; i < N; ++i) {
+		allocInitDoubleLinkedList(&out->table[i]);
+	}
 }
 
 void freeHashTable(HashTable *out)
 {
 	for (size_t i = 0; i < out->N; ++i) {
-		freeLinkedList(&out->table[i]);
+		freeDoubleLinkedList(&out->table[i]);
 	}
 
 	free(out->table);
+	out->N = 0;
 	out->entries = 0;
 }
 
-HashTableNode *insertHashTable(HashTable *out, int key, void *value)
+HashTableNode *insertKeyHashTable(HashTable *out, int key, void *value)
 {
 	const size_t hash = _hashFunction(out, key);
 	assert(hash < out->N);
 
 	LinkedList *hashEntry = &out->table[hash];
-	HashTableNode *node = getKeyLinkedList(hashEntry, key);
+	HashTableNode *node = getKeyDoubleLinkedList(hashEntry, key);
 
 	if (node == NULL) {
 		out->entries++;
-		node = insertLinkedList(hashEntry, key, value);
+		node = insertKeyDoubleLinkedList(hashEntry, key, value);
 	} else {
 		free(node->value);
 		node->value = value;
@@ -70,7 +76,22 @@ HashTableNode *getKeyHashTable(HashTable *out, int key)
 	const size_t hash = _hashFunction(out, key);
 	assert(hash < out->N);
 
-	return getKeyLinkedList(&out->table[hash], key);
+	return getKeyDoubleLinkedList(&out->table[hash], key);
+}
+
+int _popNodeHashTable(HashTable *out, HashTableNode *node)
+{
+	assert(node != NULL);
+	assert(out->entries > 0);
+
+	const size_t hash = _hashFunction(out, node->key);
+	assert(hash < out->N);
+
+	int removed = _popNodeDoubleLinkedList(&out->table[hash], node);
+	assert(removed == 1);
+
+	out->entries--;
+	return removed;
 }
 
 int popKeyHashTable(HashTable *out, int key)
@@ -78,7 +99,7 @@ int popKeyHashTable(HashTable *out, int key)
 	const size_t hash = _hashFunction(out, key);
 	assert(hash < out->N);
 
-	int removed = popKeyLinkedList(&out->table[hash], key);
+	int removed = popKeyDoubleLinkedList(&out->table[hash], key);
 	out->entries -= removed;
 	return removed;
 }

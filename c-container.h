@@ -47,7 +47,8 @@ typedef struct LinkedList {
 void allocInitLinkedList(LinkedList *out);
 void freeLinkedList(LinkedList *out);
 
-LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value);
+LinkedListNode *insertNodeLinkedList(LinkedList *out, LinkedListNode *node);
+LinkedListNode *insertKeyLinkedList(LinkedList *out, int key, void *value);
 
 LinkedListNode *getKeyLinkedList(LinkedList *out, int key);
 LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index);
@@ -90,20 +91,20 @@ int popKeyBinaryTree(BinaryTree *out, int key);
 
 // Hash Table =================================================================
 
-typedef LinkedListNode HashTableNode;
+typedef DoubleLinkedListNode HashTableNode;
 
 typedef struct HashTable {
 	size_t entries;
 	size_t N;
 
 	// This is the array for the hash table.
-	LinkedList *table;
+	DoubleLinkedList *table;
 } HashTable;
 
 void allocInitHashTable(HashTable *out, size_t N);
 void freeHashTable(HashTable *out);
 
-HashTableNode *insertHashTable(HashTable *out, int key, void *value);
+HashTableNode *insertKeyHashTable(HashTable *out, int key, void *value);
 
 HashTableNode *getKeyHashTable(HashTable *out, int key);
 

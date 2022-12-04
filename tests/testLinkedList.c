@@ -37,7 +37,7 @@ int main()
 		int *val = malloc(sizeof(int));
 		*val = values[i];
 
-		LinkedListNode *node = insertLinkedList(&list, i, val);
+		LinkedListNode *node = insertKeyLinkedList(&list, i, val);
 
 		assert(node != 0);
 		assert(node->key == i);
@@ -69,9 +69,9 @@ int main()
 	assert(getIndexLinkedList(&list, 15) == NULL);
 
 	// Test popKeyLinkedList
-	popKeyLinkedList(&list, 0);
-	popKeyLinkedList(&list, 5);
-	popKeyLinkedList(&list, 9);
+	assert(popKeyLinkedList(&list, 0) == 1);
+	assert(popKeyLinkedList(&list, 5) == 1);
+	assert(popKeyLinkedList(&list, 9) == 1);
 
 	for (size_t i = 0; i < 10; ++i) {
 		LinkedListNode *node = getKeyLinkedList(&list, i);
@@ -86,9 +86,9 @@ int main()
 	}
 
 	// Test remove index
-	popIndexLinkedList(&list, 0);
-	popIndexLinkedList(&list, 2);
-	popIndexLinkedList(&list, 3);
+	assert(popIndexLinkedList(&list, 0) == 1);
+	assert(popIndexLinkedList(&list, 2) == 1);
+	assert(popIndexLinkedList(&list, 3) == 1);
 
 	for (size_t i = 0; i < 10; ++i) {
 		LinkedListNode *node = getIndexLinkedList(&list, i);

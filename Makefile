@@ -19,7 +19,7 @@ objects_obj := $(patsubst %.c,%.o,$(notdir $(objects_src)))
 tests_src := $(wildcard tests/*.c)
 tests_exe := $(patsubst %.c,%.x,$(notdir $(tests_src)))
 
-CFLAGS += -I. -g
+CFLAGS += -I. -g -fms-extensions
 
 all: libcontainer.so
 

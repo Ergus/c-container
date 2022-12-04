@@ -23,7 +23,7 @@
 
 // List Node ===================================================================
 
-static LinkedListNode *_allocInitLinkedListNode(
+LinkedListNode *_allocInitLinkedListNode(
 	LinkedListNode *node, int key, void *value
 ) {
 	// Allocate and initialize a node. Sets value and set the references NULL.
@@ -40,7 +40,7 @@ static LinkedListNode *_allocInitLinkedListNode(
 	return node;
 }
 
-static void _freeLinkedListNode(LinkedListNode *node)
+void _freeLinkedListNode(LinkedListNode *node)
 {
 	// the value needs to be released as the node has its ownership
 	free(node->value);
@@ -67,9 +67,8 @@ void freeLinkedList(LinkedList *out)
 	out->entries = 0;
 }
 
-LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value)
+LinkedListNode *insertNodeLinkedList(LinkedList *out, LinkedListNode *node)
 {
-	LinkedListNode *node = _allocInitLinkedListNode(NULL, key, value);
 	assert(node != NULL);
 
 	if (out->last != NULL) {
@@ -87,7 +86,14 @@ LinkedListNode *insertLinkedList(LinkedList *out, int key, void *value)
 	return node;
 }
 
-static LinkedListNode **_getRefKeyLinkedList(LinkedList *out, int key)
+LinkedListNode *insertKeyLinkedList(LinkedList *out, int key, void *value)
+{
+	LinkedListNode *node = _allocInitLinkedListNode(NULL, key, value);
+	assert(node != NULL);
+	return insertNodeLinkedList(out, node);
+}
+
+LinkedListNode **_getRefKeyLinkedList(LinkedList *out, int key)
 {
 	LinkedListNode **ref = &out->list;
 	for (; *ref != NULL && (*ref)->key != key; ref = &(*ref)->next);
@@ -100,7 +106,7 @@ LinkedListNode *getKeyLinkedList(LinkedList *out, int key)
 	return ref != NULL ? *ref : NULL;
 }
 
-static LinkedListNode **_getRefIndexLinkedList(LinkedList *out, size_t index)
+LinkedListNode **_getRefIndexLinkedList(LinkedList *out, size_t index)
 {
 	if (index >= out->entries) {
 		return NULL;
@@ -121,10 +127,8 @@ LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index)
 	return ref != NULL ? *ref : NULL;
 }
 
-int popKeyLinkedList(LinkedList *out, int key)
+int _popNodeLinkedList(LinkedList *out, LinkedListNode **ref)
 {
-	LinkedListNode **ref = _getRefKeyLinkedList(out, key);
-
 	if (*ref == NULL) {
 		return 0;
 	}
@@ -137,18 +141,14 @@ int popKeyLinkedList(LinkedList *out, int key)
 	return 1;
 }
 
+int popKeyLinkedList(LinkedList *out, int key)
+{
+	LinkedListNode **ref = _getRefKeyLinkedList(out, key);
+	return _popNodeLinkedList(out, ref);
+}
+
 int popIndexLinkedList(LinkedList *out, size_t index)
 {
 	LinkedListNode **ref = _getRefIndexLinkedList(out, index);
-
-	if (*ref == NULL) {
-		return 0;
-	}
-
-	LinkedListNode *next = (*ref)->next;
-
-	out->entries--;
-	free(*ref);
-	*ref = next;
-	return 1;
+	return _popNodeLinkedList(out, ref);
 }
