@@ -136,4 +136,31 @@ HashTableNode *getKeyHashTable(HashTable *out, int key);
 
 int popKeyHashTable(HashTable *out, int key);
 
+// LRU Table =================================================================
+
+// C inheritance emulation.  The LRU table is just a hash table which overlaps
+// with a linked list.
+typedef struct lruTableNode {
+	HashTableNode;
+
+	// Extend with the double linked list nodes
+	struct lruTableNode *left, *right;
+} lruTableNode;
+
+
+typedef struct lruTable {
+	struct HashTable;
+
+	// Hash table with limited number of entries.
+	size_t maxEntries;
+
+	// Access list cache. needs two pointers to the first and last element.
+	struct lruTableNode *accesList, *lastAccess;
+} lruTable;
+
+void allocInitlruTable(lruTable *out, size_t N);
+
+void freelruTable(lruTable *out);
+lruTableNode *insertlruTable(lruTable *out, int key, void *value);
+
 #endif // C_CONTAINER_H
