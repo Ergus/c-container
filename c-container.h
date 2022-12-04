@@ -56,6 +56,32 @@ LinkedListNode *getIndexLinkedList(LinkedList *out, size_t index);
 int popKeyLinkedList(LinkedList *out, int key);
 int popIndexLinkedList(LinkedList *out, size_t index);
 
+// Double Linked List ==========================================================
+
+typedef struct DoubleLinkedListNode {
+	struct LinkedListNode;
+	struct DoubleLinkedListNode *last;
+
+} DoubleLinkedListNode;
+
+typedef LinkedList DoubleLinkedList;
+
+void allocInitDoubleLinkedList(DoubleLinkedList *out);
+void freeDoubleLinkedList(DoubleLinkedList *out);
+
+DoubleLinkedListNode *insertNodeDoubleLinkedList(
+	DoubleLinkedList *out, DoubleLinkedListNode *node);
+
+DoubleLinkedListNode *insertKeyDoubleLinkedList(
+	DoubleLinkedList *out, int key, void *value
+);
+
+DoubleLinkedListNode *getKeyDoubleLinkedList(DoubleLinkedList *out, int key);
+DoubleLinkedListNode *getIndexDoubleLinkedList(DoubleLinkedList *out, size_t index);
+
+int popKeyDoubleLinkedList(LinkedList *out, int key);
+int popIndexDoubleLinkedList(LinkedList *out, size_t index);
+
 // Binary Tree =================================================================
 
 typedef struct BinaryTreeNode {
