@@ -121,7 +121,7 @@ lruTableNode *insertKeylruTable(lruTable *out, int key, void *value)
 	} else {
 
 		if (out->entries == out->maxEntries) {
-			node = out->accesList;
+			node = out->accesList; // We set node here to save malloc calls
 
 			// When full, remove the least recent access.
 			_disconnectlruTableNodeAccess(out, node);
@@ -135,9 +135,12 @@ lruTableNode *insertKeylruTable(lruTable *out, int key, void *value)
 			assert(out->entries == out->maxEntries - 1);
 		}
 
+		// if node == NULL malloc is called, else the node is reset.
 		node = _allocInitlruTableNode(node, key, value);
 		_insertNodeHashTable((HashTable *)out, (HashTableNode *)node);
 	}
+
+	// Push the node at the end of the use table.
 	_registerNodeAccess(out, node);
 
 	return node;
