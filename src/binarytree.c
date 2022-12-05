@@ -32,7 +32,6 @@ static BinaryTreeNode *_allocInitBinaryTree(
 	node->key = key;
 	node->value = value;
 
-	node->parent = NULL;
 	node->left = NULL;
 	node->right = NULL;
 
@@ -51,17 +50,6 @@ static void _freeBinaryTreeNode(BinaryTreeNode *node)
 
 	if (node->right != NULL) {
 		_freeBinaryTreeNode(node->right);
-	}
-
-	if (node->parent) {
-		// if node has a parent set the pointer to me equal to NULL
-		if (node->parent->key > node->key) {
-			assert(node->parent->left == node);
-			node->parent->left = NULL;
-		} else {
-			assert(node->parent->right == node);
-			node->parent->right = NULL;
-		}
 	}
 
 	free(node->value);

@@ -5,3 +5,7 @@ GPATH
 GRTAGS
 GTAGS
 Doxygen/
+*.gcda
+*.gcno
+coverage/
+*.info

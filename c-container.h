@@ -258,7 +258,6 @@ typedef struct BinaryTreeNode {
 	void *value;                  /*!< Node content BinaryTreeNode#value. */
 
 	// Single linked list entries (handle hash collisions)
-	struct BinaryTreeNode *parent; /*!< Parent Node.*/
 	struct BinaryTreeNode *left;   /*!< Left node (lower).*/
 	struct BinaryTreeNode *right;  /*!< Right node (higher).*/
 } BinaryTreeNode;
