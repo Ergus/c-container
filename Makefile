@@ -30,7 +30,7 @@ libcontainer.so: $(objects_obj)
 	$(CC) $(CFLAGS) -shared $^ -o $@
 
 %.x: tests/%.c libcontainer.so
-	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath=. -lcontainer
+	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath,. -lcontainer
 
 # Doxygen rules conditionally.
 ifneq (, $(shell which doxygen))
