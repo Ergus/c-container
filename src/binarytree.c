@@ -41,6 +41,10 @@ static BinaryTreeNode *_allocInitBinaryTree(
 
 static void _freeBinaryTreeNode(BinaryTreeNode *node)
 {
+	if (node == NULL){
+		return;
+	}
+
 	if (node->left != NULL) {
 		_freeBinaryTreeNode(node->left);
 	}
