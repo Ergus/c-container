@@ -1,0 +1,75 @@
+name: Build and Test on Linux Mac and Windows
+
+on:
+  push:
+    branches: [ master ]
+    tags: "v*"
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  build:
+    name: Test on ${{ matrix.config.os }} with ${{ matrix.config.cc }}
+    runs-on: ${{ matrix.config.os }}
+    env:
+      CC: ${{ matrix.config.cc }}
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            os: ubuntu-latest,
+            cc: "gcc"
+          }
+        - {
+            os: ubuntu-latest,
+            cc: "clang"
+          }
+        - {
+            os: macos-latest,
+            cc: "clang"
+          }
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Info
+        run: echo ${{ github.ref }}
+
+      - name: Build
+        run: make
+
+      - name: Test
+        run: make check
+
+  coverage:
+    name: Coverage on ubuntu with gcc
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      CC: gcc
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: CFLAGS='--coverage' make check
+
+      - name: Copy coverage
+        working-directory: ${{github.workspace}}/build
+        run: cp $(find . -regex '.*gc\(da\|no\)' -printf "%p ") .
+
+      - name: Generate Coverage
+        run: |
+          sudo apt-get -y install lcov
+          lcov -c --directory . --output-file coverage.info
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.info

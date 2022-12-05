@@ -44,7 +44,7 @@ endif
 .PHONY: check clean
 
 clean:
-	rm -rf *.o *.so *.x Doxygen
+	rm -rf *.o *.so *.x Doxygen *.gcda *.gcno coverage.info
 
 check: $(tests_exe)
 	for number in $^ ; do \
