@@ -25,15 +25,13 @@
 
 int main()
 {
-	size_t values[NENTRIES];
+	size_t values[] = {4, 5, 3, 128, 56, 57, 58, 55, 0, 1};
 
 	struct HashTable list;
 	allocInitHashTable(&list, 10);
 
 	// Insert 10 values and test
 	for (size_t i = 0; i < 10; ++i) {
-		values[i] = rand() % (NENTRIES * 10);
-
 		int *val = malloc(sizeof(int));
 		*val = values[i];
 
@@ -54,6 +52,25 @@ int main()
 	}
 
 	assert(getKeyHashTable(&list, NENTRIES * 10 + 1) == NULL);
+
+	// Test the remove function.
+	// Remove keys form font to use the most complex combinations
+	for (size_t i = 0; i < 10; ++i) {
+		int rem = popKeyHashTable(&list, values[i]);
+		assert(rem == 1);
+
+		for (size_t j = 0; j < 10; ++j) {
+			HashTableNode *node = getKeyHashTable(&list, values[j]);
+
+			if (j <= i) {
+				assert(node == NULL);
+			} else {
+				assert(node != NULL);
+				assert(node->key == values[j]);
+				assert(*(int *)(node->value) == values[j]);
+			}
+		}
+	}
 
 	freeHashTable(&list);
 
