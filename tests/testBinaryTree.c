@@ -56,7 +56,7 @@ int main()
 
 	// Test the remove function.
 	// Remove keys form font to use the most complex combinations
-	for (size_t i = 0; i < 10; ++i) {
+	for (size_t i = 0; i < 5; ++i) {
 		popKeyBinaryTree(&list, values[i]);
 
 		for (size_t j = 0; j < 10; ++j) {

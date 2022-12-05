@@ -46,6 +46,18 @@ int main()
 		assert(*(int *)(node->value) == values[i]);
 	}
 
+	{   // Insert a repeated key element to test the collision solver code.
+		int *val = malloc(sizeof(int));
+		*val = 0;
+
+		lruTableNode *node = insertKeylruTable(&list, values[3], val);
+		assert(node != 0);
+		assert(node->key == values[3]);
+		assert(*(int *)(node->value) == 0);
+
+		*val = values[3];
+	}
+
 	// Check the 10 values by key
 	for (size_t i = 0; i < NENTRIES; ++i) {
 		lruTableNode *node = getKeylruTable(&list, values[i]);
