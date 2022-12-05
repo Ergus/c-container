@@ -60,10 +60,6 @@ jobs:
       - name: Build
         run: CFLAGS='--coverage' make check
 
-      - name: Copy coverage
-        working-directory: ${{github.workspace}}/build
-        run: cp $(find . -regex '.*gc\(da\|no\)' -printf "%p ") .
-
       - name: Generate Coverage
         run: |
           sudo apt-get -y install lcov
