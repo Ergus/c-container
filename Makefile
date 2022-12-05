@@ -32,10 +32,19 @@ libcontainer.so: $(objects_obj)
 %.x: tests/%.c libcontainer.so
 	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath=. -lcontainer
 
+# Doxygen rules conditionally.
+ifneq (, $(shell which doxygen))
+all: Doxygen
+
+Doxygen: doxyfile.txt
+	doxygen $^
+endif
+
+
 .PHONY: check clean
 
 clean:
-	rm -rf *.o *.so *.x
+	rm -rf *.o *.so *.x Doxygen
 
 check: $(tests_exe)
 	for number in $^ ; do \
