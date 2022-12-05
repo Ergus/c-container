@@ -40,7 +40,7 @@ Doxygen: doxyfile.txt
 	doxygen $^
 endif
 
-
+# PHONY rules
 .PHONY: check clean
 
 clean:
@@ -50,4 +50,5 @@ check: $(tests_exe)
 	for number in $^ ; do \
 		echo "Testing: $${number}" ; \
 		./$${number} ; \
+		echo "Returned: $$?" ; \
 	done
