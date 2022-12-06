@@ -44,11 +44,14 @@ endif
 .PHONY: check clean
 
 clean:
-	rm -rf *.o *.so *.x Doxygen *.gcda *.gcno coverage.info
+	rm -rf *.{,s}o $(tests_exe) Doxygen *.gc{da,no} coverage*
+
+FAIL=\033[0;31m FAIL\033[0m
+OK=\033[0;32m OK\033[0m
 
 check: $(tests_exe)
-	for number in $^ ; do \
-		echo "Testing: $${number}" ; \
+	@(for number in $^ ; do \
+		echo -n "Testing: $${number}" ; \
 		./$${number} ; \
-		echo "Returned: $$?" ; \
-	done
+		[[ $$? == 0 ]] && echo -e "$(OK)" || echo -e "$(FAIL)" ; \
+	done)
