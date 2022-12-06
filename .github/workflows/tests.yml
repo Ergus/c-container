@@ -57,13 +57,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build
-        run: CFLAGS='--coverage' make check
+      - name: Install lcov
+        run: sudo apt-get -y install lcov
 
-      - name: Generate Coverage
-        run: |
-          sudo apt-get -y install lcov
-          lcov -c --directory . --output-file coverage.info
+      - name: Generate coverage.info
+        run: make coverage.info
+
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
