@@ -17,20 +17,34 @@ objects_src := $(wildcard src/*.c)
 objects_obj := $(patsubst %.c,%.o,$(notdir $(objects_src)))
 
 tests_src := $(wildcard tests/*.c)
-tests_exe := $(patsubst %.c,%.x,$(notdir $(tests_src)))
+tests_exe := $(patsubst %.c,%,$(notdir $(tests_src)))
 
-CFLAGS += -I. -g -fms-extensions -Wno-microsoft-anon-tag
+CFLAGS += -I. -g -fms-extensions -Wno-microsoft-anon-tag -Wall -Werror
 
 all: libcontainer.so
 
+# Objects
 %.o: src/%.c
-	$(CC) $(CFLAGS) -c -Wall -Werror -fpic $^ -o $@
+	$(CC) $(CFLAGS) -c -fpic $^ -o $@
 
+# Shared libraries (using fancy variables)
 libcontainer.so: $(objects_obj)
+%.so:
 	$(CC) $(CFLAGS) -shared $^ -o $@
 
-%.x: tests/%.c libcontainer.so
+# Executables
+%: tests/%.c libcontainer.so
 	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath,. -lcontainer
+
+# Coveralls
+coverage.info: CFLAGS += --coverage
+
+coverage.info: clean check
+	lcov --capture --directory . --output-file coverage.info
+
+coverage: coverage.info
+	genhtml coverage.info --output-directory $@
+
 
 # Doxygen rules conditionally.
 ifneq (, $(shell which doxygen))
