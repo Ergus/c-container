@@ -17,7 +17,7 @@ objects_src := $(wildcard src/*.c)
 objects_obj := $(patsubst %.c,%.o,$(notdir $(objects_src)))
 
 tests_src := $(wildcard tests/*.c)
-tests_exe := $(patsubst %.c,%,$(notdir $(tests_src)))
+tests_exe := $(patsubst %.c,%.x,$(notdir $(tests_src)))
 
 CFLAGS += -I. -g -fms-extensions -Wno-microsoft-anon-tag -Wall -Werror
 
@@ -33,7 +33,7 @@ libcontainer.so: $(objects_obj)
 	$(CC) $(CFLAGS) -shared $^ -o $@
 
 # Executables
-%: tests/%.c libcontainer.so
+%.x: tests/%.c libcontainer.so
 	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath,. -lcontainer
 
 # Coveralls
