@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>C-container: Main Page</title>
+<title>C-container: Readme</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,11 +62,26 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">C-container Documentation</div>  </div>
+<div class="title">Readme </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p>This is a simple project with some basic containers implemented in C. The project is simple and contains just one header <code><a class="el" href="c-container_8h.html" title="Header for c-container library.">c-container.h</a></code> and the library <code>libcontainer.so</code>.</p>
+<p>The main goal for this was to practice and test inheritance emulation in C, this requires a compiler with support for <code>struct</code> extension in C <b>-fms-extensions</b>.</p>
+<p>But also create an entire example project including documentation deployment with Doxygen, simple testing, and Coverage with github actions.</p>
+<p>The project page is automatically deployed with github action on: <a href="https://ergus.github.io/c-container/">Project's github page</a></p>
+<p>To build the library and the documentation just do:</p>
+<div class="fragment"><div class="line">make</div>
+</div><!-- fragment --><p>Which will create the library <code>libcontainer.so</code> and a directory <code>Doxygen</code> with html documentation extracted with <code>doxygen</code>. The documentation creation only happen when <code>doxygen</code> is installed else, you can directly read the comments in the header <code><a class="el" href="c-container_8h.html" title="Header for c-container library.">c-container.h</a></code>.</p>
+<p>To run the tests:</p>
+<div class="fragment"><div class="line">make check</div>
+</div><!-- fragment --><p>The tests/example codes are in the <code>tests</code> directory and act also as examples on how to use the data structures.</p>
+<p>It is possible to check the coverage of the tests using <b>lcov</b>. To do so you just need:</p>
+<div class="fragment"><div class="line">make coverage</div>
+</div><!-- fragment --><p>This recompile all the files and execute all the test to generate the trace files; then it process the trace with <b>lcov</b> and generate a <b>coverage</b> directory with <code>genhtml</code> with the html files.</p>
+<p>All these steps are automated also in the github action. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
