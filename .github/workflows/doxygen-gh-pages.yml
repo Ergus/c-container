@@ -1,18 +1,31 @@
-name: Doxygen GitHub Pages Deploy Action
+name: Doxygen
 
 on:
+  repository_dispatch:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - master
+      - gh-pages
 
+# In that case do the job 'make_and_deploy_doxygen'
 jobs:
-  deploy:
+  make_and_deploy_doxygen:
     runs-on: ubuntu-latest
+    # which needs the following steps to be executed:
     steps:
-      - uses: DenverCoder1/doxygen-github-pages-action@v1.2.0
+      # 1. Checkout current branch of GitHub repository.
+      - name: Checkout current branch
+        uses: actions/checkout@v2
+      # 2. Install doxygen and its auxiliary components.
+      - name: Install doxygen
+        run: sudo apt-get update; sudo apt-get install -y doxygen graphviz
+      # 3. Create the doxygen pages.
+      - name: Create the doxygen
+        run: make Doxygen
+
+      # Deploy to GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: Doxygen/html
-          config_file: Doxyfile
+          publish_dir: Doxygen
