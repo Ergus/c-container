@@ -12,7 +12,7 @@ jobs:
   job_check_doc_changes:
     runs-on: ubuntu-latest
     outputs:
-      docs_changed: ${{ steps.check_doc_changes.outputs.docs_changed }}
+      docs_changed: ${{ steps.check_doc_changes.outputs.nmydiffs }}
     steps:
       - name: Check doxygen inputs for changes
         uses: actions/checkout@v2
@@ -25,12 +25,12 @@ jobs:
           mydiffs=$(git diff --name-only HEAD^ HEAD)
           # Execute grep with || to avoud returning something != 0 and acctions getting an error
           nmydiffs=$(grep -c -e Readme.md -e c-container.h -e doxyfile.txt <<< ${mydiffs} || true)
-          echo "docs_changed=${nmydiffs}" >> $GITHUB_OUTPUT
+          echo "nmydiffs=${nmydiffs}" | tee -a $GITHUB_OUTPUT
 
   make_and_deploy_doxygen:
     runs-on: ubuntu-latest
     needs: [ job_check_doc_changes ]
-    if: needs.check_doc_changes.outputs.docs_changed > 0
+    if: needs.job_check_doc_changes.outputs.docs_changed != 0
     # which needs the following steps to be executed:
     steps:
       # 1. Checkout current branch of GitHub repository.
