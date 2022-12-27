@@ -67,5 +67,5 @@ check: $(tests_exe)
 	@(for number in $^ ; do \
 		echo -n "Testing: $${number}" ; \
 		./$${number} ; \
-		[[ $$? == 0 ]] && echo -e "$(OK)" || echo -e "$(FAIL)" ; \
+		[ $$? -eq 0 ] && echo -e "$(OK)" || echo -e "$(FAIL)" ; \
 	done)

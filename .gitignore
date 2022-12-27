@@ -9,3 +9,5 @@ Doxygen/
 *.gcno
 coverage/
 *.info
+compile_commands.json
+.cache/
