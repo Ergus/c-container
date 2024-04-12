@@ -33,7 +33,7 @@ libcontainer.so: $(objects_obj)
 	$(CC) $(CFLAGS) -shared $^ -o $@
 
 # Executables
-%.x: tests/%.c libcontainer.so
+%.x: tests/%.c libcontainer.so c-container.h
 	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath,. -lcontainer
 
 # Coveralls
@@ -55,15 +55,15 @@ Doxygen: doxyfile.txt
 endif
 
 # PHONY rules
-.PHONY: check clean
+.PHONY: test clean
 
 clean:
 	rm -rf *.{,s}o $(tests_exe) Doxygen *.gc{da,no} coverage*
 
-FAIL=\033[0;31m FAIL\033[0m
-OK=\033[0;32m OK\033[0m
+FAIL := \033[0;31m FAIL\033[0m
+OK := \033[0;32m OK\033[0m
 
-check: $(tests_exe)
+test: $(tests_exe)
 	@(for number in $^ ; do \
 		echo -n "Testing: $${number}" ; \
 		./$${number} ; \

@@ -20,14 +20,13 @@
 #include <assert.h>
 #include "c-container.h"
 
-static BinaryTreeNode *_allocInitBinaryTree(
+static BinaryTreeNode *_allocInitBinaryTreeNode(
 	struct BinaryTreeNode *node, int key, void *value
 ) {
 	// Allocate and initialize a node. Sets value and set the references NULL.
 	// this is like a constructor with new (because it calls malloc.)
-	if (node == NULL) {
+	if (node == NULL)
 		node = malloc(sizeof(struct BinaryTreeNode));
-	}
 
 	node->key = key;
 	node->value = value;
@@ -40,17 +39,13 @@ static BinaryTreeNode *_allocInitBinaryTree(
 
 static void _freeBinaryTreeNode(BinaryTreeNode *node)
 {
-	if (node == NULL){
-		return;
-	}
+	assert(node != NULL);
 
-	if (node->left != NULL) {
+	if (node->left != NULL)
 		_freeBinaryTreeNode(node->left);
-	}
 
-	if (node->right != NULL) {
+	if (node->right != NULL)
 		_freeBinaryTreeNode(node->right);
-	}
 
 	free(node->value);
 	free(node);
@@ -66,7 +61,8 @@ void allocInitBinaryTree(BinaryTree *out)
 
 void freeBinaryTree(BinaryTree *out)
 {
-	_freeBinaryTreeNode(out->tree);
+	if (out->tree != NULL)
+		_freeBinaryTreeNode(out->tree);
 }
 
 BinaryTreeNode **_getSlotBinaryTree(BinaryTreeNode **root, int key)
@@ -91,7 +87,7 @@ BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value)
 	BinaryTreeNode **it = _getSlotBinaryTree(&out->tree, key);
 
 	if (*it == NULL) {
-		*it = _allocInitBinaryTree(NULL, key, value);
+		*it = _allocInitBinaryTreeNode(NULL, key, value);
 		out->entries++;
 	} else {
 		free((*it)->value);
@@ -115,9 +111,8 @@ static int _removeKeyBinaryTree(BinaryTreeNode **root, int key)
 
 	BinaryTreeNode **it = _getSlotBinaryTree(root, key);
 
-	if (*it == NULL) {
+	if (*it == NULL)
 		return 0;
-	}
 
 	free((*it)->value);
 
@@ -130,9 +125,8 @@ static int _removeKeyBinaryTree(BinaryTreeNode **root, int key)
 		*it = tmp;
 	} else {
 		BinaryTreeNode *tmp = (*it)->right;
-		while (tmp->left != NULL) {
+		while (tmp->left != NULL)
 			tmp = tmp->left;
-		}
 
 		(*it)->key = tmp->key;
 		(*it)->value = tmp->value;
