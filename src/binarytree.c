@@ -20,13 +20,9 @@
 #include <assert.h>
 #include "c-container.h"
 
-static BinaryTreeNode *_allocInitBinaryTreeNode(
-	struct BinaryTreeNode *node, int key, void *value
-) {
-	// Allocate and initialize a node. Sets value and set the references NULL.
-	// this is like a constructor with new (because it calls malloc.)
-	if (node == NULL)
-		node = malloc(sizeof(struct BinaryTreeNode));
+static BinaryTreeNode *_allocInitBinaryTreeNode(int key, void *value)
+{
+	BinaryTreeNode *node = malloc(sizeof(struct BinaryTreeNode));
 
 	node->key = key;
 	node->value = value;
@@ -87,7 +83,7 @@ BinaryTreeNode *insertBinaryTree(BinaryTree *out, int key, void *value)
 	BinaryTreeNode **it = _getSlotBinaryTree(&out->tree, key);
 
 	if (*it == NULL) {
-		*it = _allocInitBinaryTreeNode(NULL, key, value);
+		*it = _allocInitBinaryTreeNode(key, value);
 		out->entries++;
 	} else {
 		free((*it)->value);
@@ -117,21 +113,28 @@ static int _removeKeyBinaryTree(BinaryTreeNode **root, int key)
 	free((*it)->value);
 
 	if ((*it)->left == NULL && (*it)->right == NULL) {
+		// No siblings
 		free((*it));
 		*it = NULL;
 	} else if ((*it)->left == NULL || (*it)->right == NULL) {
+		// One sibling (but not both)
 		BinaryTreeNode *tmp = (*it)->left != NULL ? (*it)->left : (*it)->right;
 		free((*it));
 		*it = tmp;
 	} else {
+		// Both siblings
+		// Need to find the bigger value in the right child (so, the smaller
+		// value bigger than this)
 		BinaryTreeNode *tmp = (*it)->right;
 		while (tmp->left != NULL)
 			tmp = tmp->left;
 
+		// Then switch the nodes
 		(*it)->key = tmp->key;
 		(*it)->value = tmp->value;
 		tmp->value = NULL;   // free on NULL is save.
 
+		// Call recursively to remove the tmp node applying the same methodology
 		int removed = _removeKeyBinaryTree(&(*it)->right, tmp->key);
 		assert(removed == 1);
 	}
