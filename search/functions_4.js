@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['popindexdoublelinkedlist_94',['popIndexDoubleLinkedList',['../group__double.html#gac882e297beb7e2f5125ace0d98793683',1,'c-container.h']]],
-  ['popindexlinkedlist_95',['popIndexLinkedList',['../group__list.html#ga9fd1a90c2eadc86e12f887487e289cfc',1,'c-container.h']]],
-  ['popkeybinarytree_96',['popKeyBinaryTree',['../group__tree.html#ga0011584c6c5692aaad97cb0fc40490e0',1,'c-container.h']]],
-  ['popkeydoublelinkedlist_97',['popKeyDoubleLinkedList',['../group__double.html#ga4779a83eaa6551c2bc0be423d5793c71',1,'c-container.h']]],
-  ['popkeyhashtable_98',['popKeyHashTable',['../group__hash.html#ga8f08711f4a480c2d79e3de1b066912d6',1,'c-container.h']]],
-  ['popkeylinkedlist_99',['popKeyLinkedList',['../group__list.html#ga91fb2715ac93714ffadbbfeb73baa087',1,'c-container.h']]]
+  ['insertbinarytree_89',['insertBinaryTree',['../group__tree.html#ga00d5e686d8b01f55a5347606be0fd296',1,'c-container.h']]],
+  ['insertkeydoublelinkedlist_90',['insertKeyDoubleLinkedList',['../group__double.html#ga61f274f2ca00ab58db77583af1149db1',1,'c-container.h']]],
+  ['insertkeyhashtable_91',['insertKeyHashTable',['../group__hash.html#ga2550de15c0b63017058577c6a662cd7d',1,'c-container.h']]],
+  ['insertkeylinkedlist_92',['insertKeyLinkedList',['../group__list.html#ga4ce5635bb93ea3478b4f098975ad9be4',1,'c-container.h']]],
+  ['insertkeylrutable_93',['insertKeylruTable',['../group__lrutable.html#ga02a4824c6d7f80589f1f763edd457987',1,'c-container.h']]],
+  ['insertnodedoublelinkedlist_94',['insertNodeDoubleLinkedList',['../group__double.html#gab34b3101910f7ea65fa10c21b1ac0a8f',1,'c-container.h']]],
+  ['insertnodelinkedlist_95',['insertNodeLinkedList',['../group__list.html#gaa592ddb1e78e8074c9fd0d8f761f2c37',1,'c-container.h']]]
 ];

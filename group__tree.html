@@ -110,6 +110,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga0011584c6c5692aaad97cb0fc40490e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tree.html#ga0011584c6c5692aaad97cb0fc40490e0">popKeyBinaryTree</a> (<a class="el" href="group__tree.html#structBinaryTree">BinaryTree</a> *out, int key)</td></tr>
 <tr class="memdesc:ga0011584c6c5692aaad97cb0fc40490e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove <a class="el" href="group__tree.html#structBinaryTreeNode" title="Binary tree node type.">BinaryTreeNode</a> from <a class="el" href="group__tree.html#structBinaryTree" title="Binary tree container.">BinaryTree</a> given a key O(n)  <a href="group__tree.html#ga0011584c6c5692aaad97cb0fc40490e0">More...</a><br /></td></tr>
 <tr class="separator:ga0011584c6c5692aaad97cb0fc40490e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3c4f7acfb6bee0b0de55c0d5144de61a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tree.html#ga3c4f7acfb6bee0b0de55c0d5144de61a">dsfBinaryTree</a> (<a class="el" href="group__tree.html#structBinaryTree">BinaryTree</a> *inout, void(*func)(struct <a class="el" href="group__tree.html#structBinaryTreeNode">BinaryTreeNode</a> *, void *), void *arg)</td></tr>
+<tr class="memdesc:ga3c4f7acfb6bee0b0de55c0d5144de61a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function in Deep Search First (DSF) order.  <a href="group__tree.html#ga3c4f7acfb6bee0b0de55c0d5144de61a">More...</a><br /></td></tr>
+<tr class="separator:ga3c4f7acfb6bee0b0de55c0d5144de61a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>This is the binary tree container. </p>
@@ -264,6 +267,51 @@ tree</td>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Pointer to <a class="el" href="group__tree.html#structBinaryTree" title="Binary tree container.">BinaryTree</a> object to construct. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga3c4f7acfb6bee0b0de55c0d5144de61a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3c4f7acfb6bee0b0de55c0d5144de61a">&#9670;&nbsp;</a></span>dsfBinaryTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dsfBinaryTree </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__tree.html#structBinaryTree">BinaryTree</a> *&#160;</td>
+          <td class="paramname"><em>inout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(*)(struct <a class="el" href="group__tree.html#structBinaryTreeNode">BinaryTreeNode</a> *, void *)&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>arg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Apply a function in Deep Search First (DSF) order. </p>
+<p>The function uses the recursive implementation of dfs to run the tree in order. This is equivalent to</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">out</td><td>Pointer to <a class="el" href="group__tree.html#structBinaryTree" title="Binary tree container.">BinaryTree</a> object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>Function to apply on every node. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">argument</td><td>to pass to the function. </td></tr>
   </table>
   </dd>
 </dl>
