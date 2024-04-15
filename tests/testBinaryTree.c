@@ -20,8 +20,14 @@
 #endif
 
 #include "c-container.h"
+#include <stdio.h>
 
 #define NENTRIES 10
+
+void printfunc(struct BinaryTreeNode *node, void *)
+{
+	printf("%d %d\n", node->key, *(int*)node->value);
+}
 
 int main()
 {
@@ -31,6 +37,7 @@ int main()
 	allocInitBinaryTree(&list);
 
 	// Insert 10 values and test
+	printf("Insert 10 values\n");
 	for (size_t i = 0; i < 10; ++i) {
 		int *val = malloc(sizeof(int));
 		*val = values[i];
@@ -55,6 +62,7 @@ int main()
 	}
 
 	// Check the 10 values by key
+	printf("Check 10 values\n");
 	for (size_t i = 0; i < 10; ++i) {
 		BinaryTreeNode *node = getKeyBinaryTree(&list, values[i]);
 
@@ -63,11 +71,15 @@ int main()
 		assert(*(int *)(node->value) == values[i]);
 	}
 
-
+	printf("Check invalid keys\n");
 	assert(getKeyBinaryTree(&list, NENTRIES * 10 + 1) == NULL);
+
+	printf("Check dsf function");
+	dsfBinaryTree(&list, printfunc, NULL);
 
 	// Test the remove function.
 	// Remove keys form font to use the most complex combinations
+	printf("Check remove keys\n");
 	for (size_t i = 0; i < 5; ++i) {
 		assert(popKeyBinaryTree(&list, values[i]) == 1);
 

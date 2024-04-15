@@ -144,3 +144,28 @@ int popKeyBinaryTree(BinaryTree *out, int key)
 	out->entries -= removed;
 	return removed;
 }
+
+void _dsfBinaryTreeNode(
+	BinaryTreeNode *node,
+	void (*func)(struct BinaryTreeNode *, void *),
+	void *arg
+) {
+	assert(node != NULL);
+
+	if (node->left != NULL)
+		_dsfBinaryTreeNode(node->left, func, arg);
+
+	func(node, arg);
+
+	if (node->right != NULL)
+		_dsfBinaryTreeNode(node->right, func, arg);
+}
+
+void dsfBinaryTree(
+	BinaryTree *inout,
+	void (*func)(struct BinaryTreeNode *, void *),
+	void *arg
+) {
+	if (inout->tree != NULL)
+		_dsfBinaryTreeNode(inout->tree, func, arg);
+}
