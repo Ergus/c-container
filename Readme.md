@@ -30,7 +30,7 @@ you can directly read the comments in the header `c-container.h`.
 To run the tests:
 
 ```
-make check
+make test
 ```
 
 The tests/example codes are in the `tests` directory and act also as
