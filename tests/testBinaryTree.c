@@ -24,7 +24,7 @@
 
 #define NENTRIES 10
 
-void printfunc(struct BinaryTreeNode *node, void *)
+void printfunc(struct BinaryTreeNode *node, void *_ignore)
 {
 	printf("%d %d\n", node->key, *(int*)node->value);
 }
