@@ -77,6 +77,9 @@ int main()
 	printf("Check dsf function");
 	dsfBinaryTree(&list, printfunc, NULL);
 
+	printf("Check bsf function");
+	bsfBinaryTree(&list, printfunc, NULL);
+
 	// Test the remove function.
 	// Remove keys form font to use the most complex combinations
 	printf("Check remove keys\n");

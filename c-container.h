@@ -320,7 +320,6 @@ int popKeyBinaryTree(BinaryTree *out, int key);
 //! Apply a function in Deep Search First (DSF) order
 /*!
   The function uses the recursive implementation of dfs to run the tree in order.
-  This is equivalent to 
 
   \param[inout] out Pointer to #BinaryTree object.
   \param[in] func Function to apply on every node.
@@ -331,6 +330,23 @@ void dsfBinaryTree(
 	void (*func)(struct BinaryTreeNode *, void *),
 	void *arg
 );
+
+//! Apply a function in Breadth Search First (BSF) order
+/*!
+
+  The function uses the iterative implementation of dfs to run the tree starting
+  for the root and closer nodes, going farther in every step.
+
+  \param[inout] out Pointer to #BinaryTree object.
+  \param[in] func Function to apply on every node.
+  \param[inout] argument to pass to the function.
+ */
+void bsfBinaryTree(
+	BinaryTree *inout,
+	void (*func)(struct BinaryTreeNode *, void *),
+	void *arg
+);
+
 
 //!@}
 

@@ -148,6 +148,37 @@ int popKeyBinaryTree(BinaryTree *out, int key)
 	return removed;
 }
 
+void bsfBinaryTree(
+	BinaryTree *inout,
+	void (*func)(struct BinaryTreeNode *, void *),
+	void *arg
+) {
+	LinkedList list;
+	allocInitLinkedList(&list);
+
+	// This is not needed, but put linked list has a key and I like to have or
+	// with right values.
+	int count = 0;
+
+	if (inout->tree != NULL)
+		insertKeyLinkedList(&list, count++, inout->tree);
+
+	while (list.entries > 0)
+	{
+		BinaryTreeNode *node = getIndexLinkedList(&list, 0)->value;
+
+		func(node, arg);
+
+		if (node->left != NULL)
+			insertKeyLinkedList(&list, count++, node->left);
+
+		if (node->right != NULL)
+			insertKeyLinkedList(&list, count++, node->right);
+
+		popIndexLinkedList(&list, 0);
+	}
+}
+
 void _dsfBinaryTreeNode(
 	BinaryTreeNode *node,
 	void (*func)(struct BinaryTreeNode *, void *),
