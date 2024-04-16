@@ -25,7 +25,7 @@ all: libcontainer.so
 
 # Objects
 %.o: src/%.c
-	$(CC) $(CFLAGS) -c -fpic $^ -o $@
+	$(CC) $(CFLAGS) -c -fpic $< -o $@
 
 # Shared libraries (using fancy variables)
 libcontainer.so: $(objects_obj)
@@ -34,7 +34,7 @@ libcontainer.so: $(objects_obj)
 
 # Executables
 %.x: tests/%.c libcontainer.so c-container.h
-	$(CC) $(CFLAGS) $^ -o $@ -L. -Wl,-rpath,. -lcontainer
+	$(CC) $(CFLAGS) $< -o $@ -L. -Wl,-rpath,. -lcontainer
 
 # Coveralls
 coverage.info: CFLAGS += --coverage

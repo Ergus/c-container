@@ -42,7 +42,7 @@ jobs:
         run: make
 
       - name: Test
-        run: make check
+        run: make test
 
   coverage:
     name: Coverage on ubuntu with gcc
