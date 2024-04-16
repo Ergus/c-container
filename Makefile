@@ -66,6 +66,6 @@ OK := \033[0;32m OK\033[0m
 test: $(tests_exe)
 	@(for number in $^ ; do \
 		echo -n "Testing: $${number}" ; \
-		./$${number} ; \
+		./$${number} > /dev/null; \
 		[ $$? -eq 0 ] && echo -e "$(OK)" || echo -e "$(FAIL)" ; \
 	done)
