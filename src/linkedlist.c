@@ -114,9 +114,7 @@ LinkedListNode **_getRefIndexLinkedList(LinkedList *out, size_t index)
 
 	size_t counter = 0;
 	LinkedListNode **ref = &out->list;
-	for (; counter < index; ref = &(*ref)->next) {
-		++counter;
-	};
+	for (; counter++ < index; ref = &(*ref)->next);
 
 	return ref;
 }
