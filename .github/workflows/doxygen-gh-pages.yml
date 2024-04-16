@@ -15,7 +15,7 @@ jobs:
       docs_changed: ${{ steps.check_doc_changes.outputs.nmydiffs }}
     steps:
       - name: Check doxygen inputs for changes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           # Checkout as many commits as needed for the diff
           fetch-depth: 2
@@ -35,7 +35,7 @@ jobs:
     steps:
       # 1. Checkout current branch of GitHub repository.
       - name: Checkout current branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       # 2. Install doxygen and its auxiliary components.
       - name: Install doxygen
         run: sudo apt-get update; sudo apt-get install -y doxygen graphviz
