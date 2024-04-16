@@ -39,7 +39,7 @@ libcontainer.so: $(objects_obj)
 # Coveralls
 coverage.info: CFLAGS += --coverage
 
-coverage.info: clean check
+coverage.info: clean test
 	lcov --capture --directory . --output-file coverage.info
 
 coverage: coverage.info
