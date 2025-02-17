@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['double_20linked_20list_129',['Double Linked list',['../group__double.html',1,'']]]
+  ['binary_20search_20tree_0',['Simple binary search tree',['../group__tree.html',1,'']]]
 ];

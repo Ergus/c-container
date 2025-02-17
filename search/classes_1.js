@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['doublelinkedlistnode_65',['DoubleLinkedListNode',['../group__double.html#structDoubleLinkedListNode',1,'']]]
+  ['doublelinkedlistnode_0',['DoubleLinkedListNode',['../group__double.html#structDoubleLinkedListNode',1,'']]]
 ];

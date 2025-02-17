@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dsfbinarytree_78',['dsfBinaryTree',['../group__tree.html#ga3c4f7acfb6bee0b0de55c0d5144de61a',1,'c-container.h']]]
+  ['dsfbinarytree_0',['dsfBinaryTree',['../group__tree.html#ga3c4f7acfb6bee0b0de55c0d5144de61a',1,'c-container.h']]]
 ];
