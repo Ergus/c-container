@@ -13,12 +13,12 @@ But also create an entire example project including documentation
 deployment with Doxygen, simple testing, and Coverage with github
 actions.
 
-The project page is automatically deployed with github action on:
+This project page is automatically deployed with github actions on:
 [Project's github page](https://ergus.github.io/c-container/)
 
 To build the library and the documentation just do:
 
-```
+```bash
 make
 ```
 
@@ -29,7 +29,7 @@ you can directly read the comments in the header `c-container.h`.
 
 To run the tests:
 
-```
+```bash
 make test
 ```
 
@@ -39,7 +39,7 @@ examples on how to use the data structures.
 It is possible to check the coverage of the tests using **lcov**. To
 do so you just need:
 
-```
+```bash
 make coverage
 ```
 
